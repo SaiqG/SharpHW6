@@ -2,6 +2,7 @@
 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
 // Пользователь вводит с клавиатуры M чисел. Посчитайте, сколько чисел больше 0 ввёл пользователь.
+
 int CatchNums(string[] nums)
 {
     int sum = 0;
@@ -19,67 +20,58 @@ int CatchNums(string[] nums)
 string[] SplitString()
 {
     Console.Write("Введите числа через пробел, запятую или / : ");
-
-    string numbs = Console.ReadLine()!;
-    string[] numSt = numbs.Split(' ', ',', '/');
-    return numSt;
+    return Console.ReadLine()!.Split(' ', ',', '/');
 }
 
 
-// Напишите программу, которая найдёт точку пересечения двух прямых, заданных уравнениями y = k1 * x + b1, y = k2 * x + b2; значения b1, k1, b2 и k2 задаются пользователем.
-// Point FindCrossPoint(string[] nums)
+// Напишите программу, которая найдёт точку пересечения двух прямых, заданных уравнениями y = double.Parse(nums[0]) * x + double.Parse(nums[1]), y = double.Parse(nums[2]) * x + double.Parse(nums[3]); значения double.Parse(nums[1]), double.Parse(nums[0]), double.Parse(nums[3]) и double.Parse(nums[2]) задаются пользователем.
 
-// {
-//     Point cross = new Point();
-
-//     if (nums.Length != 4)
-//     {
-//         Console.WriteLine("Вы ввели не 4 значения.");
-//         return cross;
-//     }
-//     else
-//     {
-//         int k1 = int.Parse(nums[0]);
-//         int b1 = int.Parse(nums[1]);
-//         int k2 = int.Parse(nums[2]);
-//         int b2 = int.Parse(nums[3]);
-
-//         cross.X = (b2 - b1) / (k1 - k2);
-
-//         cross.Y = (k1 * (b2 - b1)) / (k1 - k2) + b1;
-//         Console.WriteLine("Наши прямы заданы уравнениями: ");
-//         Console.WriteLine($"y = {k1} * x + {b1}");
-//         Console.WriteLine($"y = {k2} * x + {b2}");
-//         return cross;
-//     }
-
-// }
-
-// не понял, как через Point сделать, не получилось создать Point(double x, double y)
-string FindCross(string[] nums)
-
+PointF FindCrossPoint(string[] nums)
 {
+    PointF cross = new PointF();
+
     if (nums.Length != 4)
     {
-        return "Вы ввели не 4 значения.";
+        Console.WriteLine("Вы ввели не 4 значения.");
+        return cross;
     }
     else
     {
-        double k1 = double.Parse(nums[0]);
-        double b1 = double.Parse(nums[1]);
-        double k2 = double.Parse(nums[2]);
-        double b2 = double.Parse(nums[3]);
+        cross.X = (float.Parse(nums[3]) - float.Parse(nums[1])) / (float.Parse(nums[0]) - float.Parse(nums[2]));
 
-        double x = (b2 - b1) / (k1 - k2);
+        cross.Y = (float.Parse(nums[0]) * (float.Parse(nums[3]) - float.Parse(nums[1]))) / (float.Parse(nums[0]) - float.Parse(nums[2])) + float.Parse(nums[1]);
 
-        double y = (k1 * (b2 - b1)) / (k1 - k2) + b1;
-        Console.WriteLine("Ваши прямы заданы уравнениями: ");
-        Console.WriteLine($"y = {k1} * x + {b1}");
-        Console.WriteLine($"y = {k2} * x + {b2}");
-       return $"Точка пересечения ({x};{y}) ";
+        Console.WriteLine("Наши прямы заданы уравнениями: ");
+        Console.WriteLine($"y = {float.Parse(nums[0])} * x + {float.Parse(nums[1])}");
+        Console.WriteLine($"y = {float.Parse(nums[2])} * x + {float.Parse(nums[3])}");
+
+        return cross;
     }
-
 }
+
+// не понял, как через Point сделать, не получилось создать Point(double x, double y)
+// Получилось, правда нигде не мог найти ничего, пока писал Point увидел в подсказках какой-то PointF подумал, что это подойдет, оказалось что да)
+
+// string FindCross(string[] nums)
+
+// {
+//     if (nums.Length != 4)
+//     {
+//         return "Вы ввели не 4 значения.";
+//     }
+//     else
+//     {
+//         double x = (double.Parse(nums[3]) - double.Parse(nums[1])) / (double.Parse(nums[0]) - double.Parse(nums[2]));
+
+//         double y = (double.Parse(nums[0]) * (double.Parse(nums[3]) - double.Parse(nums[1]))) / (double.Parse(nums[0]) - double.Parse(nums[2])) + double.Parse(nums[1]);
+
+//         Console.WriteLine("Ваши прямы заданы уравнениями: ");
+//         Console.WriteLine($"y = {double.Parse(nums[0])} * x + {double.Parse(nums[1])}");
+//         Console.WriteLine($"y = {double.Parse(nums[2])} * x + {double.Parse(nums[3])}");
+//         return $"Точка пересечения ({x};{y}) ";
+//     }
+
+//}
 
 while (true)
 {
@@ -89,10 +81,13 @@ while (true)
         Console.WriteLine("1.Подсчет положительных | 2.Поиск точки пересечения");
         ConsoleKeyInfo chouse = Console.ReadKey();
         Console.Clear();
-        if (chouse.KeyChar == '1') Console.WriteLine($"Из вашего набора чисел всего {CatchNums(SplitString())} положительных.");
-        else if (chouse.KeyChar == '2') Console.WriteLine($"Точка их пересечения {FindCross(SplitString())}");
-        else Console.WriteLine($"У меня тут всего две задачи.");
 
+        if (chouse.KeyChar == '1')
+        { Console.WriteLine($"Из вашего набора чисел всего {CatchNums(SplitString())} положительных."); }
+        else if (chouse.KeyChar == '2')
+        { Console.WriteLine($"Точка их пересечения {FindCrossPoint(SplitString())}"); }
+        else
+        { Console.WriteLine($"У меня тут всего две задачи."); }
 
     }
     catch (Exception)
